@@ -1,0 +1,677 @@
+<title>Radar de Consultorías</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --paper: #eef0f3;
+    --surface: #ffffff;
+    --surface-2: #f5f6f8;
+    --ink: #151d27;
+    --muted: #5b6672;
+    --faint: #8a93a0;
+    --line: #d8dce1;
+    --accent: #1c58a0;
+    --accent-ink: #ffffff;
+    --accent-soft: #e4edf8;
+    --urgent: #b6331c;
+    --urgent-soft: #f8e4df;
+    --warn: #92620a;
+    --warn-soft: #f6ecd6;
+    --good: #276a48;
+    --good-soft: #e1efe6;
+    --shadow: 0 1px 2px rgba(21,29,39,0.06), 0 8px 24px -12px rgba(21,29,39,0.18);
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0f151d;
+      --surface: #161e28;
+      --surface-2: #1c2531;
+      --ink: #e8ecf1;
+      --muted: #9aa6b3;
+      --faint: #6b7581;
+      --line: #2a3543;
+      --accent: #6ba3e0;
+      --accent-ink: #0b1520;
+      --accent-soft: #1c3350;
+      --urgent: #e2705a;
+      --urgent-soft: #3a2320;
+      --warn: #d9ab55;
+      --warn-soft: #3a301c;
+      --good: #6fbf95;
+      --good-soft: #1d3327;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0f151d;
+    --surface: #161e28;
+    --surface-2: #1c2531;
+    --ink: #e8ecf1;
+    --muted: #9aa6b3;
+    --faint: #6b7581;
+    --line: #2a3543;
+    --accent: #6ba3e0;
+    --accent-ink: #0b1520;
+    --accent-soft: #1c3350;
+    --urgent: #e2705a;
+    --urgent-soft: #3a2320;
+    --warn: #d9ab55;
+    --warn-soft: #3a301c;
+    --good: #6fbf95;
+    --good-soft: #1d3327;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .label {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+  }
+  .mono {
+    font-family: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- header ---- */
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .top-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; gap: 14px; align-items: flex-start; }
+  .brand-mark {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .brand-mark svg { width: 24px; height: 24px; }
+  .brand h1 {
+    margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.01em;
+  }
+  .brand .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .brand .who { color: var(--faint); font-size: 12px; margin-top: 6px; }
+  .brand .who b { color: var(--muted); font-weight: 600; }
+  .meta-strip { text-align: right; font-size: 12px; color: var(--faint); }
+  .meta-strip .stamp { color: var(--muted); }
+
+  /* ---- stats ---- */
+  .stats {
+    max-width: 1180px; margin: 0 auto; padding: 20px 24px 4px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .stat .n { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .stat .l { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .stat.urgent .n { color: var(--urgent); }
+
+  /* ---- controls ---- */
+  .controls {
+    max-width: 1180px; margin: 0 auto; padding: 18px 24px 6px;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  }
+  .search {
+    flex: 1 1 260px; position: relative;
+  }
+  .search input {
+    width: 100%; padding: 10px 12px 10px 34px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    font-size: 14px; font-family: inherit;
+  }
+  .search input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--faint); }
+  .pillgroup { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    border-radius: 999px; padding: 7px 13px; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; transition: background .12s, color .12s, border-color .12s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--ink); }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  select.sortsel {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 8px; padding: 9px 10px; font-size: 12.5px; font-family: inherit; font-weight: 600;
+  }
+
+  .count-row {
+    max-width: 1180px; margin: 0 auto; padding: 10px 24px 0; color: var(--faint); font-size: 12.5px;
+  }
+
+  /* ---- list ---- */
+  main { max-width: 1180px; margin: 0 auto; padding: 12px 24px 60px; }
+  .card {
+    display: flex; gap: 0; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); margin-top: 12px; overflow: hidden; box-shadow: var(--shadow);
+  }
+  .card-bar { width: 5px; flex: none; }
+  .card-body { padding: 15px 18px; flex: 1; min-width: 0; }
+  .card-head {
+    display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .card-titles { min-width: 0; }
+  .card-num { font-size: 12px; color: var(--faint); }
+  .card-ent { font-size: 15.5px; font-weight: 700; margin-top: 2px; letter-spacing: -0.005em; }
+  .badges { display: flex; gap: 6px; flex: none; align-items: center; }
+  .badge {
+    border-radius: 6px; padding: 4px 9px; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .badge.tier-alta { background: var(--accent); color: var(--accent-ink); }
+  .badge.tier-media { background: var(--accent-soft); color: var(--accent); }
+  .badge.tier-baja { background: var(--surface-2); color: var(--faint); }
+  .badge.time-urgent { background: var(--urgent-soft); color: var(--urgent); }
+  .badge.time-warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.time-good { background: var(--good-soft); color: var(--good); }
+  .badge.time-closed { background: var(--surface-2); color: var(--faint); }
+
+  .card-desc { margin-top: 9px; color: var(--ink); font-size: 13.5px; line-height: 1.55; max-width: 78ch; }
+  .card-meta {
+    margin-top: 11px; display: flex; flex-wrap: wrap; gap: 16px; font-size: 12.5px; color: var(--muted);
+  }
+  .card-meta .mi { display: flex; gap: 6px; align-items: baseline; }
+  .card-meta .mi b { color: var(--ink); font-weight: 600; }
+  .kw-row { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .kw {
+    background: var(--surface-2); color: var(--muted); border-radius: 5px; padding: 2px 7px;
+    font-size: 11px; font-family: ui-monospace, Consolas, monospace;
+  }
+  .card-foot {
+    margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+  }
+  .deadline { font-size: 12.5px; color: var(--muted); }
+  .deadline b { color: var(--ink); }
+  .actions { display: flex; gap: 7px; flex-wrap: wrap; }
+  .go {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface-2); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 7px; padding: 7px 12px; font-size: 12.5px; font-weight: 700;
+    text-decoration: none; transition: background .12s, border-color .12s;
+    cursor: pointer; font-family: inherit;
+  }
+  .go:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .go svg { width: 12px; height: 12px; }
+  .go.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .go.primary:hover { filter: brightness(1.08); }
+  .go.has-analysis { position: relative; }
+  .go.has-analysis::after {
+    content: ''; position: absolute; top: -3px; right: -3px; width: 7px; height: 7px;
+    border-radius: 50%; background: var(--good); border: 1.5px solid var(--surface);
+  }
+
+  .empty {
+    text-align: center; padding: 60px 20px; color: var(--faint);
+  }
+
+  /* ---- split view ---- */
+  #layout { max-width: 1180px; margin: 0 auto; padding: 12px 24px 60px; display: block; }
+  #layout.split-open { display: grid; grid-template-columns: minmax(0,1fr) minmax(340px, 460px); gap: 18px; align-items: start; max-width: 1440px; padding: 12px 24px 60px; }
+  #listCol { min-width: 0; }
+  #panel {
+    display: none; position: sticky; top: 84px; max-height: calc(100vh - 104px); overflow-y: auto;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 0;
+  }
+  #layout.split-open #panel { display: block; }
+  .panel-head {
+    position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: 16px 18px; display: flex; justify-content: space-between; gap: 10px; align-items: flex-start;
+  }
+  .panel-head .pnum { font-size: 11.5px; color: var(--faint); }
+  .panel-head .pent { font-size: 15px; font-weight: 800; margin-top: 2px; }
+  .panel-close {
+    flex: none; width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--line);
+    background: var(--surface-2); color: var(--muted); cursor: pointer; display: flex;
+    align-items: center; justify-content: center; font-family: inherit;
+  }
+  .panel-close:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .panel-body { padding: 16px 18px 22px; }
+  .panel-section { margin-top: 18px; }
+  .panel-section:first-child { margin-top: 0; }
+  .panel-section h3 {
+    margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 800; color: var(--muted);
+  }
+  .panel-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; font-size: 12.5px; }
+  .panel-meta-grid .k { color: var(--faint); }
+  .panel-meta-grid .v { color: var(--ink); font-weight: 600; }
+  .panel-summary { font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+  .doc-row {
+    display: flex; gap: 9px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--line);
+  }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-dot {
+    flex: none; width: 18px; height: 18px; border-radius: 50%; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+  }
+  .doc-dot.ok { background: var(--good-soft); color: var(--good); }
+  .doc-dot.falta { background: var(--urgent-soft); color: var(--urgent); }
+  .doc-dot.riesgo { background: var(--urgent-soft); color: var(--urgent); }
+  .doc-dot.verificar { background: var(--warn-soft); color: var(--warn); }
+  .doc-dot.pendiente { background: var(--surface-2); color: var(--faint); }
+  .doc-item { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .doc-nota { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.45; }
+  .alert-box {
+    background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 10px 12px;
+    font-size: 12.5px; line-height: 1.5; margin-top: 8px;
+  }
+  .alert-box:first-child { margin-top: 0; }
+  .panel-empty {
+    font-size: 13px; color: var(--muted); line-height: 1.6; background: var(--surface-2);
+    border-radius: 8px; padding: 14px;
+  }
+  .panel-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  @media (max-width: 860px) {
+    #layout.split-open { display: block; }
+    #panel { position: fixed; inset: 0; top: 0; max-height: 100vh; z-index: 30; border-radius: 0; }
+  }
+
+  footer.note {
+    max-width: 1180px; margin: 8px auto 40px; padding: 0 24px; color: var(--faint); font-size: 12px; line-height: 1.6;
+  }
+  footer.note b { color: var(--muted); }
+
+  @media (max-width: 720px) {
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .card-meta { gap: 10px; }
+  }
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+      </div>
+      <div>
+        <h1>Radar de Consultorías &mdash; SEACE</h1>
+        <div class="sub">Contrataciones menores filtradas por afinidad con tu perfil profesional</div>
+        <div class="who"><b>Jhon Brian Ribbeck Soto</b> &middot; Ing. Civil Estructural / BIM &middot; CIP 289452 &middot; RNP: Consultor de Obras, Bienes y Servicios</div>
+      </div>
+    </div>
+    <div class="meta-strip">
+      <div class="label">Corte de datos</div>
+      <div class="stamp mono" id="stampDate">&mdash;</div>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <div class="n mono" id="statTotal">&mdash;</div>
+    <div class="l">Oportunidades con coincidencia</div>
+  </div>
+  <div class="stat">
+    <div class="n mono" id="statAlta">&mdash;</div>
+    <div class="l">Prioridad alta</div>
+  </div>
+  <div class="stat urgent">
+    <div class="n mono" id="statUrgente">&mdash;</div>
+    <div class="l">Cierran en &le; 3 d&iacute;as</div>
+  </div>
+  <div class="stat">
+    <div class="n mono" id="statRegiones">&mdash;</div>
+    <div class="l">Regiones distintas</div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="Buscar por entidad, descripci&oacute;n o palabra clave&hellip;" />
+  </div>
+  <div class="pillgroup" id="tierPills"></div>
+  <div class="pillgroup" id="objPills"></div>
+  <div class="pillgroup" id="closedPills"></div>
+  <select class="sortsel" id="sortSel">
+    <option value="score">Ordenar: prioridad</option>
+    <option value="deadline">Ordenar: cierre m&aacute;s pr&oacute;ximo</option>
+    <option value="pub">Ordenar: publicaci&oacute;n reciente</option>
+  </select>
+</div>
+
+<div class="count-row" id="countRow"></div>
+
+<div id="layout">
+  <div id="listCol"><main id="list"></main></div>
+  <aside id="panel"></aside>
+</div>
+
+<footer class="note">
+  <b>Sobre el presupuesto:</b> el SEACE no publica un presupuesto referencial para contrataciones menores (&le;8 UIT) &mdash; el proveedor presenta su propia cotizaci&oacute;n antes del cierre. Por eso no aparece como columna aqu&iacute;.<br/>
+  <b>Sobre la coincidencia:</b> el puntaje de prioridad se calcula por palabras clave de tu perfil (estructuras, expedientes t&eacute;cnicos, supervisi&oacute;n/consultor&iacute;a de obra, BIM, instalaciones el&eacute;ctricas/sanitarias, arquitectura) encontradas en la descripci&oacute;n del proceso. Revisa siempre el detalle en SEACE antes de decidir.<br/>
+  <b>Fuente:</b> API p&uacute;blica del Buscador de Contrataciones Menores del SEACE (prod6.seace.gob.pe), objetos &ldquo;Consultor&iacute;a de Obra&rdquo; y &ldquo;Servicio&rdquo;, estado Vigente.
+</footer>
+
+<script id="raw-data" type="application/json">__DATA_JSON__</script>
+<script id="raw-analisis" type="application/json">__ANALISIS_JSON__</script>
+<script>
+(function(){
+  const RAW = JSON.parse(document.getElementById('raw-data').textContent);
+  const ANALISIS = JSON.parse(document.getElementById('raw-analisis').textContent);
+  const GENERATED_AT = "__GENERATED_AT__";
+
+  function parseFecha(s){
+    // dd/mm/yyyy HH:mm:ss
+    const m = s.match(/(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2}):(\d{2})/);
+    if(!m) return null;
+    return new Date(+m[3], +m[2]-1, +m[1], +m[4], +m[5], +m[6]);
+  }
+
+  const now = new Date();
+  const items = RAW.map(d => {
+    const finDate = parseFecha(d.fin);
+    const pubDate = parseFecha(d.pub);
+    const msLeft = finDate ? (finDate - now) : null;
+    const daysLeft = msLeft !== null ? msLeft / 86400000 : null;
+    let tier = 'baja';
+    if (d.score >= 5) tier = 'alta';
+    else if (d.score >= 2) tier = 'media';
+    let urgency = 'good';
+    if (daysLeft === null) urgency = 'closed';
+    else if (daysLeft < 0) urgency = 'closed';
+    else if (daysLeft <= 1) urgency = 'urgent';
+    else if (daysLeft <= 3) urgency = 'warn';
+    return Object.assign({}, d, { finDate, pubDate, daysLeft, tier, urgency });
+  });
+
+  const regiones = new Set();
+  items.forEach(it => {
+    if (it.lugar) it.lugar.split('|').forEach(p => {
+      const first = p.trim().split('/')[0];
+      if (first) regiones.add(first);
+    });
+  });
+
+  document.getElementById('stampDate').textContent = GENERATED_AT;
+  const openRelevant = items.filter(i => i.tier!=='baja' && i.urgency!=='closed');
+  document.getElementById('statTotal').textContent = openRelevant.length;
+  document.getElementById('statAlta').textContent = openRelevant.filter(i=>i.tier==='alta').length;
+  document.getElementById('statUrgente').textContent = openRelevant.filter(i=>i.urgency==='urgent').length;
+  document.getElementById('statRegiones').textContent = regiones.size;
+
+  const state = { q: '', tier: 'relevantes', obj: 'todos', sort: 'score', showClosed: false };
+
+  const tierDefs = [
+    { id: 'relevantes', label: 'Relevantes' },
+    { id: 'alta', label: 'Prioridad alta' },
+    { id: 'media', label: 'Prioridad media' },
+    { id: 'todas', label: 'Todas (incl. baja)' },
+  ];
+  const tierPillsEl = document.getElementById('tierPills');
+  tierDefs.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (t.id===state.tier?' active':'');
+    b.textContent = t.label;
+    b.onclick = () => { state.tier = t.id; render(); syncPills(); };
+    b.dataset.id = t.id;
+    tierPillsEl.appendChild(b);
+  });
+
+  const objDefs = [
+    { id: 'todos', label: 'Todo objeto' },
+    { id: 'Consultoría de Obra', label: 'Consultoría de Obra' },
+    { id: 'Servicio', label: 'Servicio' },
+  ];
+  const objPillsEl = document.getElementById('objPills');
+  objDefs.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (o.id===state.obj?' active':'');
+    b.textContent = o.label;
+    b.onclick = () => { state.obj = o.id; render(); syncPills(); };
+    b.dataset.id = o.id;
+    objPillsEl.appendChild(b);
+  });
+
+  const closedPillsEl = document.getElementById('closedPills');
+  const closedBtn = document.createElement('button');
+  closedBtn.className = 'pill';
+  closedBtn.textContent = 'Incluir cerrados';
+  closedBtn.onclick = () => { state.showClosed = !state.showClosed; render(); syncPills(); };
+  closedPillsEl.appendChild(closedBtn);
+
+  function syncPills(){
+    [...tierPillsEl.children].forEach(b => b.classList.toggle('active', b.dataset.id === state.tier));
+    [...objPillsEl.children].forEach(b => b.classList.toggle('active', b.dataset.id === state.obj));
+    closedBtn.classList.toggle('active', state.showClosed);
+  }
+
+  document.getElementById('q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  document.getElementById('sortSel').addEventListener('change', e => { state.sort = e.target.value; render(); });
+
+  function fmtDate(d){
+    if(!d) return '—';
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mi = String(d.getMinutes()).padStart(2,'0');
+    return `${dd}/${mm}/${d.getFullYear()} ${hh}:${mi}`;
+  }
+
+  function urgencyLabel(it){
+    if (it.daysLeft === null) return { cls: 'closed', text: 'Sin fecha' };
+    if (it.daysLeft < 0) return { cls: 'closed', text: 'Cerrado' };
+    if (it.daysLeft < 1) {
+      const h = Math.max(1, Math.round(it.daysLeft*24));
+      return { cls: 'urgent', text: `Cierra en ${h} h` };
+    }
+    if (it.daysLeft <= 3) return { cls: 'warn', text: `Cierra en ${Math.ceil(it.daysLeft)} días` };
+    return { cls: 'good', text: `Cierra en ${Math.ceil(it.daysLeft)} días` };
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function render(){
+    let filtered = items.filter(it => {
+      if (state.tier === 'relevantes' && it.tier === 'baja') return false;
+      if (state.tier === 'alta' && it.tier !== 'alta') return false;
+      if (state.tier === 'media' && it.tier !== 'media') return false;
+      if (state.obj !== 'todos' && it.obj !== state.obj) return false;
+      if (!state.showClosed && it.urgency === 'closed') return false;
+      if (state.q) {
+        const hay = (it.ent + ' ' + it.desc + ' ' + it.num + ' ' + it.kw.join(' ')).toLowerCase();
+        if (!hay.includes(state.q)) return false;
+      }
+      return true;
+    });
+
+    filtered.sort((a,b) => {
+      if (state.sort === 'deadline') {
+        const av = a.finDate ? a.finDate.getTime() : Infinity;
+        const bv = b.finDate ? b.finDate.getTime() : Infinity;
+        return av - bv;
+      }
+      if (state.sort === 'pub') {
+        const av = a.pubDate ? a.pubDate.getTime() : 0;
+        const bv = b.pubDate ? b.pubDate.getTime() : 0;
+        return bv - av;
+      }
+      return b.score - a.score;
+    });
+
+    document.getElementById('countRow').textContent =
+      `${filtered.length} proceso${filtered.length===1?'':'s'} mostrados`;
+
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      const e = document.createElement('div');
+      e.className = 'empty';
+      e.textContent = 'No hay procesos que coincidan con estos filtros.';
+      list.appendChild(e);
+      return;
+    }
+
+    const tierBarColor = { alta: 'var(--accent)', media: 'var(--accent-soft)', baja: 'var(--line)' };
+    const tierBadgeClass = { alta: 'tier-alta', media: 'tier-media', baja: 'tier-baja' };
+    const tierBadgeText = { alta: 'Alta', media: 'Media', baja: 'Baja' };
+
+    filtered.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const bar = document.createElement('div');
+      bar.className = 'card-bar';
+      bar.style.background = tierBarColor[it.tier];
+      card.appendChild(bar);
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const urg = urgencyLabel(it);
+
+      body.innerHTML = `
+        <div class="card-head">
+          <div class="card-titles">
+            <div class="card-num mono">${escapeHtml(it.num)} &middot; ${escapeHtml(it.obj)}</div>
+            <div class="card-ent">${escapeHtml(it.ent)}</div>
+          </div>
+          <div class="badges">
+            <span class="badge ${'time-'+urg.cls}">${urg.text}</span>
+            <span class="badge ${tierBadgeClass[it.tier]}">${tierBadgeText[it.tier]}</span>
+          </div>
+        </div>
+        <div class="card-desc">${escapeHtml(it.desc)}</div>
+        <div class="card-meta">
+          ${it.area ? `<div class="mi">Área: <b>${escapeHtml(it.area)}</b></div>` : ''}
+          ${it.lugar ? `<div class="mi">Ubicación: <b>${escapeHtml(it.lugar)}</b></div>` : ''}
+          ${it.tipo ? `<div class="mi">Invitación: <b>${escapeHtml(it.tipo)}</b></div>` : ''}
+        </div>
+        <div class="kw-row">${it.kw.map(k=>`<span class="kw">${escapeHtml(k)}</span>`).join('')}</div>
+        <div class="card-foot">
+          <div class="deadline">Cotización hasta <b class="mono">${escapeHtml(it.fin)}</b> &middot; publicado <span class="mono">${escapeHtml(it.pub)}</span></div>
+          <div class="actions">
+            <a class="go" href="https://prod6.seace.gob.pe/v1/s8uit-services/archivo/archivos-publico/descargar-archivo-contrato/${it.archivoId}" target="_blank" rel="noopener noreferrer">
+              Descargar PDF
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </a>
+            <a class="go" href="https://prod6.seace.gob.pe/buscador-publico/contrataciones/${it.id}" target="_blank" rel="noopener noreferrer">
+              Consultas
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+            <button class="go primary${ANALISIS[it.id] ? ' has-analysis' : ''}" data-open-panel="${it.id}">Ver análisis</button>
+          </div>
+        </div>
+      `;
+      body.querySelector('[data-open-panel]').addEventListener('click', () => openPanel(it));
+      card.appendChild(body);
+      list.appendChild(card);
+    });
+  }
+
+  const layoutEl = document.getElementById('layout');
+  const panelEl = document.getElementById('panel');
+
+  const docLabel = { ok: 'OK', falta: 'Falta', riesgo: 'Riesgo', verificar: 'Verificar', pendiente: 'Luego' };
+  const docSymbol = { ok: '✓', falta: '✕', riesgo: '!', verificar: '?', pendiente: '…' };
+
+  function openPanel(it){
+    const a = ANALISIS[it.id];
+    let html = `
+      <div class="panel-head">
+        <div>
+          <div class="pnum mono">${escapeHtml(it.num)}</div>
+          <div class="pent">${escapeHtml(it.ent)}</div>
+        </div>
+        <button class="panel-close" data-close-panel aria-label="Cerrar">✕</button>
+      </div>
+      <div class="panel-body">
+    `;
+
+    if (a) {
+      html += `
+        <div class="panel-section">
+          <h3>Qué piden, en corto</h3>
+          <div class="panel-summary">${escapeHtml(a.resumen)}</div>
+          <div class="panel-meta-grid" style="margin-top:10px;">
+            ${a.monto ? `<div class="k">Monto</div><div class="v mono">${escapeHtml(a.monto)}</div>` : ''}
+            ${a.plazo ? `<div class="k">Plazo</div><div class="v">${escapeHtml(a.plazo)}</div>` : ''}
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3>Checklist vs. tu perfil</h3>
+          ${a.docs.map(d => `
+            <div class="doc-row">
+              <div class="doc-dot ${d.estado}">${docSymbol[d.estado] || '?'}</div>
+              <div>
+                <div class="doc-item">${escapeHtml(d.item)} <span style="color:var(--faint); font-weight:600;">— ${docLabel[d.estado] || ''}</span></div>
+                <div class="doc-nota">${escapeHtml(d.nota)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        ${a.alertas && a.alertas.length ? `
+          <div class="panel-section">
+            <h3>Alertas</h3>
+            ${a.alertas.map(al => `<div class="alert-box">${escapeHtml(al)}</div>`).join('')}
+          </div>
+        ` : ''}
+        <div class="panel-section">
+          <h3>Fuente</h3>
+          <div class="panel-summary" style="color:var(--faint); font-size:12px;">Extraído del PDF de requerimiento publicado en SEACE. Verifica siempre el documento original antes de presentar tu oferta.</div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="panel-section">
+          <div class="panel-empty">
+            Este proceso todavía no tiene el checklist de requisitos generado.<br/><br/>
+            Descarga el PDF de requerimiento con el botón correspondiente, o pídeme en el chat que lo analice y te diga qué documentos te faltan para postular.
+          </div>
+        </div>
+      `;
+    }
+
+    html += `
+        <div class="panel-section panel-links">
+          <a class="go" href="https://prod6.seace.gob.pe/v1/s8uit-services/archivo/archivos-publico/descargar-archivo-contrato/${it.archivoId}" target="_blank" rel="noopener noreferrer">Descargar PDF</a>
+          <a class="go" href="https://prod6.seace.gob.pe/buscador-publico/contrataciones/${it.id}" target="_blank" rel="noopener noreferrer">Ver en SEACE</a>
+        </div>
+      </div>
+    `;
+
+    panelEl.innerHTML = html;
+    panelEl.querySelector('[data-close-panel]').addEventListener('click', closePanel);
+    layoutEl.classList.add('split-open');
+    panelEl.scrollTop = 0;
+  }
+
+  function closePanel(){
+    layoutEl.classList.remove('split-open');
+    panelEl.innerHTML = '';
+  }
+
+  render();
+})();
+</script>

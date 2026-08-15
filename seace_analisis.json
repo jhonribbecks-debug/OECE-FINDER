@@ -1,0 +1,41 @@
+{
+  "84716": {
+    "resumen": "Evaluación estructural del pavimento/estructuras de una obra para la formulación de un proyecto de inversión (Gobierno Regional La Libertad).",
+    "monto": null,
+    "plazo": null,
+    "docs": [
+      {"item": "Persona natural o jurídica", "estado": "ok", "nota": "Aplicas como persona natural."},
+      {"item": "RNP vigente (Servicios)", "estado": "ok", "nota": "Tu RNP incluye \"Bienes y servicios\"."},
+      {"item": "RUC Habido y Habilitado", "estado": "verificar", "nota": "Confirmar estado actual en SUNAT antes de postular."},
+      {"item": "No REDAM / no inhabilitado con el Estado", "estado": "verificar", "nota": "Verificación estándar, normalmente no es un problema."},
+      {"item": "Título de Ingeniero Civil, colegiado y habilitado", "estado": "ok", "nota": "CIP 289452, título Universidad Continental (2022)."},
+      {"item": "Experiencia general ≥ 3 años desde colegiatura", "estado": "ok", "nota": "Colegiado desde set. 2022 (~4 años)."},
+      {"item": "3 servicios como especialista estructural / diseño-evaluación estructural", "estado": "ok", "nota": "Consorcio DIMSA (2025-actual), Consorcio Integral Sierra y Selva (2024), PRONIED análisis de estructuras (2026) — cuentan como acreditación."},
+      {"item": "Equipo: GPS (antigüedad ≤ 1 año)", "estado": "falta", "nota": "No figura en tu CV. Necesitarías alquilarlo o conseguir uno reciente."},
+      {"item": "Equipo: Taladro para muestras de diamantina (≤ 1 año)", "estado": "falta", "nota": "Equipo especializado de ensayo — normalmente se subcontrata a un laboratorio."},
+      {"item": "Equipo: Escáner de acero (≤ 1 año)", "estado": "falta", "nota": "Mismo caso — evalúa alquiler o alianza con laboratorio de ensayo de materiales."},
+      {"item": "Camioneta Pick Up (antigüedad ≤ 5 años)", "estado": "falta", "nota": "No figura en tu CV como recurso propio."}
+    ],
+    "alertas": [
+      "El mayor riesgo es el equipamiento técnico exigido (GPS, taladro de diamantina, escáner de acero, camioneta reciente): no aparece en tu perfil. Si no los tienes, necesitas conseguirlos en alquiler o asociarte con un laboratorio/proveedor que sí los tenga antes de presentar la oferta."
+    ]
+  },
+  "84470": {
+    "resumen": "Consultoría de obra para supervisar la elaboración del expediente técnico de un proyecto de agua potable y alcantarillado rural en Santiago de Chuco, La Libertad. Monto: S/ 20,000. Plazo: 60 días calendario.",
+    "monto": "S/ 20,000.00",
+    "plazo": "60 días calendario",
+    "docs": [
+      {"item": "Persona natural o jurídica", "estado": "ok", "nota": "Aplicas como persona natural."},
+      {"item": "RNP Consultor de Obras vigente", "estado": "ok", "nota": "Confirmado en tu perfil RNP."},
+      {"item": "Facturación acumulada S/ 60,000 (15 años) en especialidad SANEAMIENTO Y AFINES (agua potable / alcantarillado / aguas residuales / obras rurales)", "estado": "verificar", "nota": "Tu CV documenta experiencia en vías, educación y estructuras generales, pero no aparece claramente etiquetada como proyectos de agua/alcantarillado. Revisa si alguna de tus órdenes de servicio puede acreditarse bajo esta especialidad exacta — es el requisito más incierto de esta oportunidad."},
+      {"item": "Jefe de Supervisión: Ing. Civil y/o Ing. Sanitario, titulado", "estado": "ok", "nota": "Título de Ingeniero Civil."},
+      {"item": "Experiencia general ≥ 5 años desde la colegiatura", "estado": "riesgo", "nota": "Colegiado desde el 05/09/2022 (~4 años a la fecha). Podrías no alcanzar el mínimo de 5 años exigido, según la fecha exacta de presentación de ofertas. Verifica el cómputo antes de invertir tiempo en la propuesta."},
+      {"item": "Experiencia específica ≥ 3 años como Jefe de Supervisión / Supervisor / Residente de Obras / Proyectista en expedientes técnicos", "estado": "ok", "nota": "Acreditable con tus contratos como Residente de Obras (Monobamba, Manitea) y Especialista en Estructuras."},
+      {"item": "SCTR del personal asignado", "estado": "pendiente", "nota": "Se gestiona recién tras la firma del contrato/orden de servicio, no es un documento previo a la oferta."}
+    ],
+    "alertas": [
+      "Riesgo de experiencia general: te faltaría verificar si ya cumples los 5 años exigidos desde tu colegiatura (set. 2022) a la fecha exacta de cierre de esta convocatoria.",
+      "La especialidad exigida es \"Saneamiento y afines\" (agua/alcantarillado) — es el punto más incierto: confirma si tienes S/60,000 facturados acreditables en ese rubro específico antes de preparar la propuesta."
+    ]
+  }
+}
