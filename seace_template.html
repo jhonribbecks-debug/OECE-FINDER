@@ -72,6 +72,21 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
+  body::after {
+    content: "RIBBECK ENG";
+    position: fixed;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+    z-index: 0;
+    pointer-events: none;
+    font-weight: 800;
+    letter-spacing: 0.35em;
+    font-size: 11px;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+  #layout, header.top, footer.note, #fileNotice { position: relative; z-index: 1; }
   .label {
     font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     font-weight: 700;
@@ -96,46 +111,49 @@
   .top-inner {
     max-width: 1180px;
     margin: 0 auto;
-    padding: 18px 24px;
+    padding: 10px 24px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 16px;
     flex-wrap: wrap;
   }
-  .brand { display: flex; gap: 14px; align-items: flex-start; }
+  .brand { display: flex; gap: 10px; align-items: center; }
+  .brand-logo {
+    width: 44px; height: 44px; object-fit: contain; flex: none;
+  }
   .brand-mark {
-    width: 42px; height: 42px; border-radius: 8px;
+    width: 32px; height: 32px; border-radius: 7px;
     background: var(--accent); color: var(--accent-ink);
     display: flex; align-items: center; justify-content: center;
     flex: none;
   }
-  .brand-mark svg { width: 24px; height: 24px; }
+  .brand-mark svg { width: 18px; height: 18px; }
   .brand h1 {
-    margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.01em;
+    margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.01em;
   }
-  .brand .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
-  .brand .who { color: var(--faint); font-size: 12px; margin-top: 6px; }
+  .brand .sub { color: var(--muted); font-size: 11.5px; margin-top: 1px; }
+  .brand .who { color: var(--faint); font-size: 10.5px; margin-top: 2px; }
   .brand .who b { color: var(--muted); font-weight: 600; }
-  .meta-strip { text-align: right; font-size: 12px; color: var(--faint); }
+  .meta-strip { text-align: right; font-size: 11px; color: var(--faint); }
   .meta-strip .stamp { color: var(--muted); }
 
   /* ---- stats ---- */
   .stats {
-    max-width: 1180px; margin: 0 auto; padding: 20px 24px 4px;
+    max-width: 1180px; margin: 0 auto; padding: 8px 24px 2px;
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
   }
   .stat {
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 14px 16px;
+    padding: 9px 14px;
   }
-  .stat .n { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; }
-  .stat .l { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .stat .n { font-size: 21px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .stat .l { color: var(--muted); font-size: 11px; margin-top: 1px; }
   .stat.urgent .n { color: var(--urgent); }
 
   /* ---- controls ---- */
   .controls {
-    max-width: 1180px; margin: 0 auto; padding: 18px 24px 6px;
+    max-width: 1180px; margin: 0 auto; padding: 10px 24px 4px;
     display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
   }
   .search {
@@ -236,7 +254,7 @@
   #layout.split-open { display: grid; grid-template-columns: minmax(0,1fr) minmax(340px, 460px); gap: 18px; align-items: start; max-width: 1440px; padding: 12px 24px 60px; }
   #listCol { min-width: 0; }
   #panel {
-    display: none; position: sticky; top: 84px; max-height: calc(100vh - 104px); overflow-y: auto;
+    display: none; position: sticky; top: 56px; max-height: calc(100vh - 76px); overflow-y: auto;
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
     box-shadow: var(--shadow); padding: 0;
   }
@@ -284,14 +302,171 @@
     font-size: 12.5px; line-height: 1.5; margin-top: 8px;
   }
   .alert-box:first-child { margin-top: 0; }
+  .analysis-badge { display: flex; flex-wrap: wrap; gap: 6px; }
+  .analysis-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .analysis-badge .ab {
+    font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px; letter-spacing: 0.02em;
+  }
+  .analysis-badge .ab.ok { background: var(--good-soft); color: var(--good); }
+  .analysis-badge .ab.falta, .analysis-badge .ab.riesgo { background: var(--urgent-soft); color: var(--urgent); }
+  .analysis-badge .ab.verificar { background: var(--warn-soft); color: var(--warn); }
+  .analysis-badge .ab.pend { background: var(--surface-2); color: var(--faint); }
+  .recom-row {
+    display: flex; gap: 8px; align-items: flex-start; padding: 9px 11px;
+    border-left: 3px solid var(--warn); background: var(--warn-soft); border-radius: 6px;
+    margin-top: 6px; font-size: 12.5px; line-height: 1.5; color: var(--ink);
+  }
+  .recom-row:first-child { margin-top: 0; }
+  .doc-accion { font-size: 11.5px; color: var(--warn); font-weight: 700; margin-top: 3px; }
   .panel-empty {
     font-size: 13px; color: var(--muted); line-height: 1.6; background: var(--surface-2);
     border-radius: 8px; padding: 14px;
   }
   .panel-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+  /* ---- workspace + PDF split ---- */
+  #workspace {
+    display: none; min-width: 0; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+    max-height: calc(100vh - 96px); position: sticky; top: 84px; overflow-y: auto;
+  }
+  #pdfPane {
+    display: none; min-width: 0; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+    height: calc(100vh - 96px); position: sticky; top: 56px; overflow: hidden;
+  }
+  #layout.split-pdf {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 18px;
+    align-items: start; max-width: 1600px;
+  }
+  #layout.split-pdf #workspace { display: none; }
+  #layout.split-pdf #pdfPane { display: block; }
+  #layout.split-ws {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 18px;
+    align-items: start; max-width: 1600px;
+  }
+  #layout.split-ws #listCol { display: none; }
+  #layout.split-ws #workspace { display: block; }
+  #layout.split-ws #pdfPane { display: block; }
+  #pdfFrame { width: 100%; height: calc(100% - 46px); border: 0; display: block; background: #fff; }
+  .pdf-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 9px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2);
+    font-size: 12px; color: var(--muted);
+  }
+  .pdf-bar .t { font-weight: 700; color: var(--ink); max-width: 60ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pdf-loading, .pdf-error { padding: 40px 20px; text-align: center; color: var(--faint); font-size: 13px; }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); padding: 8px 14px 0; position: sticky; top: 0; background: var(--surface); z-index: 2; }
+  .tab {
+    border: 1px solid transparent; background: transparent; color: var(--muted);
+    font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 7px 12px;
+    border-radius: 7px 7px 0 0; cursor: pointer;
+  }
+  .tab.active { background: var(--accent-soft); color: var(--accent); border-color: var(--line); border-bottom-color: transparent; }
+  .tabpane { display: none; padding: 16px 18px 22px; }
+  .tabpane.active { display: block; }
+  .countdown {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  }
+  .countdown .cd-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); font-weight: 800; }
+  .countdown .cd-val { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .countdown.urgent .cd-val { color: var(--urgent); }
+  .countdown.warn .cd-val { color: var(--warn); }
+  .countdown.good .cd-val { color: var(--good); }
+  .countdown.closed .cd-val { color: var(--faint); }
+  .fmt-row { display: flex; align-items: flex-start; gap: 9px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .fmt-row:last-child { border-bottom: none; }
+  .fmt-toggle {
+    flex: none; width: 20px; height: 20px; margin-top: 1px; border-radius: 6px;
+    border: 1.5px solid var(--line); background: var(--surface); cursor: pointer; color: transparent;
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; font-family: inherit;
+  }
+  .fmt-row.listo .fmt-toggle { background: var(--good); border-color: var(--good); color: #fff; }
+  .fmt-t { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .fmt-row.listo .fmt-t { color: var(--faint); text-decoration: line-through; }
+  .fmt-del { flex: none; background: transparent; border: none; color: var(--faint); cursor: pointer; font-family: inherit; padding: 2px 5px; font-size: 13px; }
+  .fmt-del:hover { color: var(--urgent); }
+  .fmt-add { display: flex; gap: 6px; margin-top: 10px; }
+  .fmt-add input {
+    flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 7px; padding: 7px 10px; font-size: 12.5px; font-family: inherit;
+  }
+  .fmt-add input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .fmt-add button, .mini-btn {
+    border: 1px solid var(--line); background: var(--surface-2); color: var(--ink);
+    border-radius: 7px; padding: 7px 11px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .fmt-add button:hover, .mini-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .wks-note { font-size: 12px; color: var(--faint); margin-top: 6px; line-height: 1.5; }
+  .wks-progress { margin-top: 10px; }
+  .wks-progress .bar { height: 6px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-top: 6px; }
+  .wks-progress .bar i { display: block; height: 100%; background: var(--good); border-radius: 999px; transition: width .2s; }
+  .borrador-wrap { margin-top: 14px; }
+  .borrador-wrap textarea {
+    width: 100%; min-height: 160px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface); color: var(--ink); padding: 10px 12px; font-size: 12.5px;
+    font-family: inherit; line-height: 1.5; resize: vertical;
+  }
+  .borrador-wrap textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .borrador-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  .save-hint { font-size: 11.5px; color: var(--good); font-weight: 700; }
+
+  /* ---- import por codigo ---- */
+  .import-group { display: flex; gap: 6px; align-items: center; }
+  .import-group input {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 8px; padding: 8px 11px; font-size: 12.5px; font-family: inherit; width: 260px;
+  }
+  .import-group input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  #importMsg { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+
+  /* ---- ficha de postulacion ---- */
+  .proveedor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11px; font-weight: 700; color: var(--faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .field input { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 7px; padding: 7px 10px; font-size: 12.5px; font-family: inherit; }
+  .field input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .ficha-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .ficha-table th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  .ficha-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .ficha-table input[type=text], .ficha-table input[type=number], .ficha-table input[type=date] {
+    width: 100%; min-width: 60px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 6px; padding: 5px 7px; font-size: 12.5px; font-family: inherit;
+  }
+  .ficha-table input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .doc-file { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 11.5px; color: var(--muted); flex-wrap: wrap; }
+  .doc-file input[type=file] { font-size: 11px; max-width: 190px; }
+  .doc-tools { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; align-items: center; }
+  .autofill-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .file-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--good-soft); color: var(--good); border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .rtm-row { display: flex; gap: 8px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .rtm-row input { flex: 1; }
+  .rtm-row .rtm-desc { flex: 1.3; }
+  .rtm-row .rtm-x { flex: none; background: transparent; border: none; color: var(--faint); cursor: pointer; font-size: 13px; font-family: inherit; }
+  .rtm-row .rtm-x:hover { color: var(--urgent); }
+  .total-box { background: var(--good-soft); color: var(--good); border-radius: 8px; padding: 10px 12px; font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .ficha-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+  .mercado { margin-top: 16px; }
+  .mercado summary { cursor: pointer; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .mercado table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 8px; }
+  .mercado th, .mercado td { text-align: left; padding: 5px 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .mercado th { color: var(--faint); font-size: 10.5px; text-transform: uppercase; }
+  .mercado .fuente { color: var(--faint); font-size: 10.5px; }
+  #fileNotice { display: none; max-width: 1180px; margin: 0 auto; padding: 12px 24px 0; }
+  #fileNotice .banner {
+    background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 10px 14px; font-size: 13px; line-height: 1.6;
+  }
+  #fileNotice .banner code { font-family: ui-monospace, Consolas, monospace; background: rgba(0,0,0,0.08); border-radius: 4px; padding: 1px 5px; }
+
   @media (max-width: 860px) {
     #layout.split-open { display: block; }
     #panel { position: fixed; inset: 0; top: 0; max-height: 100vh; z-index: 30; border-radius: 0; }
+    #layout.split-pdf { display: block; }
+    #layout.split-pdf #workspace { display: none; }
+    #layout.split-ws { display: block; }
+    #layout.split-ws #workspace { display: block; }
+    #layout.split-ws #pdfPane { position: fixed; inset: 0; top: 0; height: 100vh; max-height: 100vh; z-index: 30; border-radius: 0; }
   }
 
   footer.note {
@@ -308,9 +483,7 @@
 <header class="top">
   <div class="top-inner">
     <div class="brand">
-      <div class="brand-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
-      </div>
+      <img class="brand-logo" src="logo.png" alt="RIBBECK ENG" />
       <div>
         <h1>Radar de Consultorías &mdash; SEACE</h1>
         <div class="sub">Contrataciones menores filtradas por afinidad con tu perfil profesional</div>
@@ -320,6 +493,8 @@
     <div class="meta-strip">
       <div class="label">Corte de datos</div>
       <div class="stamp mono" id="stampDate">&mdash;</div>
+      <button class="mini-btn" id="refreshBtn" style="margin-top:8px;">Actualizar datos</button>
+      <div id="refreshMsg" style="font-size:11px; margin-top:4px; min-height:14px;"></div>
     </div>
   </div>
 </header>
@@ -351,17 +526,38 @@
   <div class="pillgroup" id="tierPills"></div>
   <div class="pillgroup" id="objPills"></div>
   <div class="pillgroup" id="closedPills"></div>
-  <select class="sortsel" id="sortSel">
+  <div class="import-group">
+    <input id="importNum" placeholder="Agregar por c&oacute;digo (ej. CM-373-2026-SBS)" />
+    <button class="mini-btn" id="importBtn">Agregar</button>
+    <span id="importMsg"></span>
+  </div>
+<select class="sortsel" id="sortSel">
     <option value="score">Ordenar: prioridad</option>
-    <option value="deadline">Ordenar: cierre m&aacute;s pr&oacute;ximo</option>
-    <option value="pub">Ordenar: publicaci&oacute;n reciente</option>
+    <option value="deadline">Ordenar: cierre más próximo</option>
+    <option value="pub">Ordenar: publicación reciente</option>
   </select>
+  <label class="filter-calza" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;">
+    <input type="checkbox" id="onlyCalza" /> <b>Solo los que calzo</b>
+    <span class="calza-hint" style="font-weight:400;">(≥ 60% requisitos OK)</span>
+  </label>
 </div>
 
 <div class="count-row" id="countRow"></div>
 
+<div id="fileNotice"><div class="banner">Estás abriendo el dashboard como archivo local. Para ver los requerimientos <b>en pantalla sin descargarlos</b>, ejecuta <code>python seace_server.py</code> y entra a <code>http://localhost:8000</code>. El botón &ldquo;Ver PDF&rdquo; solo funciona con el servidor local.</div></div>
+
 <div id="layout">
   <div id="listCol"><main id="list"></main></div>
+  <section id="workspace" aria-label="Workspace del proceso"></section>
+  <aside id="pdfPane" aria-label="Vista previa del requerimiento">
+    <div class="pdf-bar">
+      <span class="t" id="pdfTitle">Requerimiento</span>
+      <span>
+        <button class="mini-btn" id="pdfClose">✕ Cerrar</button>
+      </span>
+    </div>
+    <iframe id="pdfFrame" title="Vista previa del PDF de requerimiento"></iframe>
+  </aside>
   <aside id="panel"></aside>
 </div>
 
@@ -400,7 +596,8 @@
     else if (daysLeft < 0) urgency = 'closed';
     else if (daysLeft <= 1) urgency = 'urgent';
     else if (daysLeft <= 3) urgency = 'warn';
-    return Object.assign({}, d, { finDate, pubDate, daysLeft, tier, urgency });
+    const openQuote = msLeft !== null && msLeft > 0;
+    return Object.assign({}, d, { finDate, pubDate, daysLeft, tier, urgency, openQuote });
   });
 
   const regiones = new Set();
@@ -466,6 +663,7 @@
 
   document.getElementById('q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); render(); });
   document.getElementById('sortSel').addEventListener('change', e => { state.sort = e.target.value; render(); });
+  document.getElementById('onlyCalza').addEventListener('change', () => render());
 
   function fmtDate(d){
     if(!d) return '—';
@@ -492,8 +690,9 @@
   }
 
   function render(){
+    const onlyCalza = document.getElementById('onlyCalza')?.checked;
     let filtered = items.filter(it => {
-      if (state.tier === 'relevantes' && it.tier === 'baja') return false;
+      if (state.tier === 'relevantes' && it.tier === 'baja' && !it.imp) return false;
       if (state.tier === 'alta' && it.tier !== 'alta') return false;
       if (state.tier === 'media' && it.tier !== 'media') return false;
       if (state.obj !== 'todos' && it.obj !== state.obj) return false;
@@ -501,6 +700,13 @@
       if (state.q) {
         const hay = (it.ent + ' ' + it.desc + ' ' + it.num + ' ' + it.kw.join(' ')).toLowerCase();
         if (!hay.includes(state.q)) return false;
+      }
+      if (onlyCalza) {
+        const a = ANALISIS[it.id];
+        if (!a || !a.docs?.length) return false;
+        const ok = a.docs.filter(d => d.estado === 'ok').length;
+        const total = a.docs.length;
+        if (ok / total < 0.6) return false;
       }
       return true;
     });
@@ -572,18 +778,26 @@
         <div class="card-foot">
           <div class="deadline">Cotización hasta <b class="mono">${escapeHtml(it.fin)}</b> &middot; publicado <span class="mono">${escapeHtml(it.pub)}</span></div>
           <div class="actions">
-            <a class="go" href="https://prod6.seace.gob.pe/v1/s8uit-services/archivo/archivos-publico/descargar-archivo-contrato/${it.archivoId}" target="_blank" rel="noopener noreferrer">
-              Descargar PDF
+            ${it.archivoId ? `<button class="go primary" data-open-pdf="${it.id}">
+              Ver PDF
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-            </a>
+            </button>` : ''}
+            ${it.openQuote ? `<button class="go primary" data-cotizar="${it.id}">
+              Cotizar
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h10"/></svg>
+            </button>` : `<button class="go" disabled title="La etapa de cotización de este proceso está cerrada." data-cotizar="${it.id}">Cotizar</button>`}
             <a class="go" href="https://prod6.seace.gob.pe/buscador-publico/contrataciones/${it.id}" target="_blank" rel="noopener noreferrer">
-              Consultas
+              Ficha SEACE
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
             </a>
             <button class="go primary${ANALISIS[it.id] ? ' has-analysis' : ''}" data-open-panel="${it.id}">Ver análisis</button>
           </div>
         </div>
       `;
+      const pdfBtn = body.querySelector('[data-open-pdf]');
+      if (pdfBtn) pdfBtn.addEventListener('click', () => openPdf(it));
+      const cotBtn = body.querySelector('[data-cotizar]');
+      if (cotBtn && !cotBtn.disabled) cotBtn.addEventListener('click', () => openPostulacion(it));
       body.querySelector('[data-open-panel]').addEventListener('click', () => openPanel(it));
       card.appendChild(body);
       list.appendChild(card);
@@ -592,13 +806,589 @@
 
   const layoutEl = document.getElementById('layout');
   const panelEl = document.getElementById('panel');
-
+  const workspaceEl = document.getElementById('workspace');
+  const pdfFrame = document.getElementById('pdfFrame');
+  const pdfTitleEl = document.getElementById('pdfTitle');
   const docLabel = { ok: 'OK', falta: 'Falta', riesgo: 'Riesgo', verificar: 'Verificar', pendiente: 'Luego' };
   const docSymbol = { ok: '✓', falta: '✕', riesgo: '!', verificar: '?', pendiente: '…' };
 
-  function openPanel(it){
+  function analysisSection(it){
     const a = ANALISIS[it.id];
-    let html = `
+    let html = '';
+    if (a) {
+      const docs = a.docs || [];
+      const cnt = s => docs.filter(d => d.estado === s).length;
+      const estadoAccion = {
+        falta: 'Debes conseguirlo/regularizarlo ANTES de postular.',
+        riesgo: 'Puede que no lo cumplas: confírmalo antes de invertir en la propuesta.',
+        verificar: 'Verifica y documenta antes de postular.',
+        pendiente: 'No es previo a la oferta: se resuelve después (contrato/ejecución).'
+      };
+      const pend = docs.filter(d => d.estado !== 'ok');
+      const okList = docs.filter(d => d.estado === 'ok');
+      const recoms = (a.recomendaciones && a.recomendaciones.length)
+        ? a.recomendaciones
+        : pend.map(d => `[${(docLabel[d.estado] || '').toUpperCase()}] ${d.item} — ${estadoAccion[d.estado]}`);
+      html += `
+        <div class="panel-section">
+          <div class="analysis-badge">
+            <span class="ab ok">${cnt('ok')} listos ✓</span>
+            <span class="ab falta">${cnt('falta')} falta ✕</span>
+            <span class="ab riesgo">${cnt('riesgo')} riesgo !</span>
+            <span class="ab verificar">${cnt('verificar')} verificar ?</span>
+            <span class="ab pend">${cnt('pendiente')} luego …</span>
+          </div>
+          ${it.archivoId ? `<div class="analysis-actions">
+            <button class="go" data-open-pdf="${it.id}">Ver PDF</button>
+            <button class="go" data-ocr-analyze="${it.id}">Complementar con OCR</button>
+          </div>` : ''}
+        </div>
+        <div class="panel-section">
+          <h3>Qué piden, en corto</h3>
+          <div class="panel-summary">${escapeHtml(a.resumen)}</div>
+          <div class="panel-meta-grid" style="margin-top:10px;">
+            ${a.monto ? `<div class="k">Monto</div><div class="v mono">${escapeHtml(a.monto)}</div>` : ''}
+            ${a.plazo ? `<div class="k">Plazo</div><div class="v">${escapeHtml(a.plazo)}</div>` : ''}
+            ${a.entidad ? `<div class="k">Entidad</div><div class="v">${escapeHtml(a.entidad)}</div>` : ''}
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3>Recomendaciones — qué te falta</h3>
+          ${recoms.length ? recoms.map(r => `<div class="recom-row">${escapeHtml(r)}</div>`).join('') : '<div class="panel-summary" style="color:var(--good);">No hay requisitos pendientes: cumples todo lo exigido hasta donde se puede verificar en el PDF.</div>'}
+        </div>
+        <div class="panel-section">
+          <h3>Checklist vs. tu perfil</h3>
+          ${docs.map(d => `
+            <div class="doc-row">
+              <div class="doc-dot ${d.estado}">${docSymbol[d.estado] || '?'}</div>
+              <div>
+                <div class="doc-item">${escapeHtml(d.item)} <span style="color:var(--faint); font-weight:600;">— ${docLabel[d.estado] || ''}</span></div>
+                <div class="doc-nota">${escapeHtml(d.nota)}</div>
+                ${d.estado !== 'ok' ? `<div class="doc-accion">→ ${estadoAccion[d.estado]}</div>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        ${okList.length ? `
+        <div class="panel-section">
+          <h3>Lo que ya tienes a favor</h3>
+          <div class="panel-summary" style="font-size:12.5px;">
+            ${okList.map(d => `✓ ${escapeHtml(d.item)}`).join('<br/>')}
+          </div>
+        </div>` : ''}
+        ${a.alertas && a.alertas.length ? `
+          <div class="panel-section">
+            <h3>Alertas</h3>
+            ${a.alertas.map(al => `<div class="alert-box">${escapeHtml(al)}</div>`).join('')}
+          </div>
+        ` : ''}
+        <div class="panel-section">
+          <h3>Decisión</h3>
+          <div class="decision-row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <button class="go" id="decVoy" data-dec="voy" style="background:var(--good);color:var(--good-ink);">✓ Voy a postular</button>
+            <button class="go" id="decNoVoy" data-dec="novoy" style="background:var(--surface-2);color:var(--ink);border:1px solid var(--line);">✕ No voy</button>
+            <span class="decision-hint" style="font-size:12px;color:var(--muted);">Tu decisión se guarda en el navegador. Si no vas, puedes evaluar luego si tu CV aporta algo más.</span>
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3>Fuente</h3>
+          <div class="panel-summary" style="color:var(--faint); font-size:12px;">Análisis extraído del PDF de requerimiento publicado en SEACE (archivos en <code style="background:var(--surface-2);padding:1px 4px;border-radius:4px;">requerimientos_analizados/</code>), contrastado contra tu perfil (CIP, RNP, experiencia en consorcios). Verifica siempre el documento original antes de presentar tu oferta.</div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="panel-section">
+          <div class="panel-empty">
+            Este proceso todavía no tiene el checklist de requisitos generado.<br/><br/>
+            Abre el PDF para leer el requerimiento, o genera el checklist automáticamente con OCR (extrae requisitos y los compara con tu perfil).
+          </div>
+          <div class="analysis-actions">
+            <button class="go" data-open-pdf="${it.id}">Ver PDF</button>
+            <button class="go primary" data-ocr-analyze="${it.id}">Generar checklist con OCR</button>
+          </div>
+          <div class="wks-note" style="margin-top:6px;">El análisis OCR es preliminar: revisa siempre el PDF original antes de postular. Guarda el resultado en <code>seace_analisis.json</code> para usarlo también en el relleno inteligente.</div>
+        </div>
+      `;
+    }
+    return html;
+  }
+
+  const LS_PREFIX = 'oece.post.';
+  const DOCS_BASE = [
+    { t: 'Declaración jurada de cumplimiento de requisitos técnicos mínimos (RTM)', fmt: 'declaracion_rtm' },
+    { t: 'Carta CCI', fmt: 'carta_cci' },
+    { t: 'Documentos que acreditan el cumplimiento de TDR o EETT', fmt: 'tdr_eett' },
+    { t: 'Oferta económica', fmt: 'oferta_economica' },
+    { t: 'RNP vigente (Consultor de Obras / Bienes y Servicios)', fmt: null },
+    { t: 'Ficha RUC / constancia SUNAT habido y habilitado', fmt: null },
+    { t: 'Declaración jurada de no estar impedido de contratar con el Estado', fmt: null },
+  ];
+
+  const MERCADO = [
+    { r: 'Maquinaria pesada (alquiler con operador + combustible)', items: [
+      { q: 'Retroexcavadora (Cat 420 / JCB 3CX)', h: 'S/ 150–170', d: 'S/ 1,200–1,500', m: 'S/ 12,000–15,000', f: 'Tremach, Cantera Centro (2025-26)' },
+      { q: 'Excavadora sobre orugas (20–30 t)', h: 'S/ 200–350', d: 'S/ 1,800–3,200', m: 'S/ 25,000–35,000', f: 'Tremach, Proyecsant (2025)' },
+      { q: 'Motoniveladora', h: 'S/ 140–200', d: 'S/ 1,300–1,800', m: 'S/ 15,000–22,000', f: 'Tremach (2025)' },
+      { q: 'Cargador frontal / rodillo compactador', h: 'S/ 120–180', d: 'S/ 1,100–1,600', m: 'S/ 12,000–18,000', f: 'Estimado mercado 2025-26' },
+    ]},
+    { r: 'Vehículos', items: [
+      { q: 'Camión volquete 15–20 m³ (con conductor)', h: 'S/ 120–140', d: 'S/ 1,000–1,300', m: 'S/ 15,000–25,000', f: 'Tremach, MTI, DOIG (2025-26)' },
+      { q: 'Camioneta pick up 4x4 (Toyota Hilux) equipada', h: '—', d: 'S/ 250–400', m: 'S/ 3,500–5,000', f: 'Renting flota (est. 2025-26, verificar)' },
+      { q: 'Cisterna de agua', h: 'S/ 110–140', d: 'S/ 950–1,200', m: 'S/ 13,000–18,000', f: 'Estimado mercado 2025-26' },
+    ]},
+    { r: 'Equipos de topografía / ensayo', items: [
+      { q: 'Estación total (con operador)', h: '—', d: 'S/ 120–250', m: '—', f: 'INGTOP, JCPINREP (2025)' },
+      { q: 'GPS navegador / nivel óptico', h: '—', d: 'S/ 30–75', m: '—', f: 'JCPINREP (2025)' },
+      { q: 'Escáner láser 3D (Leica RTC360)', h: '—', d: 'cotizar', m: 'tarifa semanal/mensual', f: 'Telemetry (2025)' },
+    ]},
+    { r: 'Referencia de adjudicaciones recientes (Estado)', items: [
+      { q: 'Alquiler camión volquete 15 m³ (mantenimiento vial)', h: '—', d: '—', m: 'S/ 318,183 contrato', f: 'GR Puno, concurso 2026' },
+    ]},
+  ];
+
+  function fmtMoney(n){
+    return n.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function normalizePost(p){
+    const docs = DOCS_BASE.map(d => {
+      const ex = (p.docs || []).find(x => x.t === d.t);
+      return { t: d.t, fmt: d.fmt, s: ex ? ex.s : 'pendiente', file: ex ? (ex.file || '') : '' };
+    });
+    return {
+      docs,
+      items: Array.isArray(p.items) ? p.items : [],
+      rtm: Array.isArray(p.rtm) && p.rtm.length ? p.rtm : [
+        { desc: 'Plazo de ejecución', sol: '', ofr: '' },
+        { desc: 'Forma de pago', sol: '', ofr: '' },
+      ],
+      vigencia: p.vigencia || '',
+      correo: p.correo || '',
+      celular: p.celular || '',
+      ruc: p.ruc || '',
+      rnp: p.rnp || '',
+      razon: p.razon || '',
+    };
+  }
+
+  function loadPost(id){
+    try {
+      const raw = localStorage.getItem(LS_PREFIX + id);
+      if (raw) return normalizePost(JSON.parse(raw));
+    } catch(e){ /* ignore */ }
+    return normalizePost({});
+  }
+
+  function savePost(id, p){
+    try { localStorage.setItem(LS_PREFIX + id, JSON.stringify(p)); } catch(e){ /* ignore */ }
+  }
+
+  let cfgCache = null;
+  async function loadConfig(){
+    if (cfgCache) return cfgCache;
+    try {
+      const r = await fetch('/config');
+      cfgCache = await r.json();
+    } catch(e){ cfgCache = { ruc: '', rnp: '', razonSocial: '', correo: '', celular: '' }; }
+    return cfgCache;
+  }
+
+  function mercadoHtml(){
+    return MERCADO.map(rubro => `
+      <h4 style="font-size:11.5px;margin:10px 0 4px;color:var(--ink);">${escapeHtml(rubro.r)}</h4>
+      <table>
+        <tr><th>Equipo / servicio</th><th>Hora</th><th>Día</th><th>Mes</th><th>Fuente</th></tr>
+        ${rubro.items.map(it => `
+          <tr>
+            <td>${escapeHtml(it.q)}</td>
+            <td>${escapeHtml(it.h || '—')}</td>
+            <td>${escapeHtml(it.d || '—')}</td>
+            <td>${escapeHtml(it.m || '—')}</td>
+            <td class="fuente">${escapeHtml(it.f || '')}</td>
+          </tr>`).join('')}
+      </table>`).join('');
+  }
+
+  function cdInfo(it){
+    const now = new Date();
+    const ms = it.finDate ? it.finDate - now : null;
+    if (ms === null || ms < 0) return { cls: 'closed', text: 'Cerrado' };
+    const days = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    if (days > 0) return { cls: days <= 3 ? 'warn' : 'good', text: `${days}d ${h}h ${m}m` };
+    if (h > 0) return { cls: 'urgent', text: `${h}h ${m}m` };
+    return { cls: 'urgent', text: `${m}m` };
+  }
+
+  function postulacionHtml(it){
+    const st = loadPost(it.id);
+    const cd = cdInfo(it);
+    return `
+      <div class="countdown ${cd.cls}">
+        <div>
+          <div class="cd-label">Cotizaciones hasta</div>
+          <div class="mono" style="font-size:13px;font-weight:700;">${escapeHtml(it.fin)}</div>
+        </div>
+        <div class="cd-val">${cd.text}</div>
+      </div>
+
+      <div class="panel-section" style="margin-top:16px;">
+        <h3>Proveedor</h3>
+        <div class="proveedor-grid">
+          <div class="field"><label>RUC</label><input id="pfRuc" value="${escapeHtml(st.ruc)}" /></div>
+          <div class="field"><label>RNP</label><input id="pfRnp" value="${escapeHtml(st.rnp)}" placeholder="Ej: Consultor de Obras / Bienes y Servicios" /></div>
+          <div class="field"><label>Razón social / Nombre</label><input id="pfRazon" value="${escapeHtml(st.razon)}" /></div>
+          <div class="field"><label>Correo de contacto</label><input id="pfCorreo" value="${escapeHtml(st.correo)}" /></div>
+          <div class="field"><label>Celular</label><input id="pfCelular" value="${escapeHtml(st.celular)}" /></div>
+        </div>
+      </div>
+
+      <div class="panel-section" style="background:var(--surface-2);border:1px dashed var(--border);">
+        <h3>Relleno inteligente (local)</h3>
+        <div class="autofill-row">
+          <button class="go primary" id="autoFillBtn">Rellenar todo automáticamente</button>
+          <span style="font-size:11.5px;color:var(--muted);">Sin internet ni claves. Usa tu config, el análisis y la tabla de mercado.</span>
+        </div>
+        <div class="wks-note" style="margin-top:6px;">Completa datos del proveedor, precios sugeridos (mercado/análisis), RTM desde el análisis y vigencia. Todo es editable antes de guardar.</div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Documentos a presentar</h3>
+        <div class="wks-progress">
+          <div style="font-size:12px;color:var(--muted);">0/${st.docs.length} listos</div>
+          <div class="bar"><i></i></div>
+        </div>
+        <div style="margin-top:8px;" id="docList"></div>
+        <div class="wks-note">Descarga cada formato, complétalo y súbelo (máx. 50 MB por archivo). Marca el estado cuando esté listo. Los documentos de <b>mis_documentos/</b> (RNP.pdf, Ficha_RUC.pdf) se adjuntan con un clic y se previsualizan sin descargar.</div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Registro de ítems</h3>
+        <div id="itemsWrap"><div class="panel-empty">Cargando ítems del proceso…</div></div>
+        <details class="mercado"><summary>Referencias de precio de mercado (2025-26)</summary>
+          ${mercadoHtml()}
+        </details>
+      </div>
+
+      <div class="panel-section">
+        <h3>Requisitos Técnicos Mínimos (RTM)</h3>
+        <div id="rtmList"></div>
+        <div class="fmt-add">
+          <input id="rtmNewDesc" placeholder="Nuevo RTM…" />
+          <input id="rtmNewSol" placeholder="RTM solicitado" style="flex:.8;" />
+          <button id="rtmAddBtn">Agregar</button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Información adicional</h3>
+        <div class="field"><label>Vigencia de la cotización (dd/mm/aaaa)</label><input id="pfVigencia" value="${escapeHtml(st.vigencia)}" placeholder="dd/mm/aaaa" /></div>
+      </div>
+
+      <div class="ficha-actions" style="margin-top:18px;">
+        <button class="go" id="fichaGuardar">Guardar borrador</button>
+        <button class="go primary" id="fichaEnviar" ${it.openQuote ? '' : 'disabled'}>Enviar cotización en SEACE</button>
+        <span class="save-hint" id="fichaHint"></span>
+      </div>
+      <div class="wks-note" style="margin-top:8px;">
+        ${it.openQuote
+          ? 'Al pulsar &ldquo;Enviar&rdquo; se abrirá la página oficial de cotización de SEACE en tu navegador. Inicia sesión ahí con tu RUC y Clave SOL (SUNAT) e ingresa los precios, RTM y archivos. Tu clave se escribe solo en esa página; este dashboard nunca la guarda.'
+          : 'La etapa de cotización de este proceso cerró o aún no inicia.'}
+      </div>
+    `;
+  }
+
+  function buildWorkspace(it){
+    return `
+      <div class="panel-head">
+        <div>
+          <div class="pnum mono">${escapeHtml(it.num)} &middot; ${escapeHtml(it.obj)}</div>
+          <div class="pent">${escapeHtml(it.ent)}</div>
+        </div>
+        <button class="panel-close" data-close-workspace aria-label="Cerrar">✕</button>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-tab="req">Requisitos</button>
+        <button class="tab" data-tab="post">Postulación</button>
+      </div>
+      <div class="tabpane active" data-pane="req">
+        ${analysisSection(it)}
+      </div>
+      <div class="tabpane" data-pane="post">
+        ${postulacionHtml(it)}
+      </div>
+    `;
+  }
+
+  let activeIt = null;
+
+    function bindWorkspace(it, w){
+    w.querySelector('[data-close-workspace]').addEventListener('click', closePdf);
+    bindAnalysisActions(it, w);
+    w.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+      w.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('active', x === b));
+      w.querySelectorAll('[data-pane]').forEach(p => p.classList.toggle('active', p.dataset.pane === b.dataset.tab));
+    }));
+
+    const st = loadPost(it.id);
+    const hint = w.querySelector('#fichaHint');
+    const flash = msg => { hint.textContent = msg; setTimeout(() => hint.textContent = '', 2200); };
+    const persist = () => savePost(it.id, st);
+
+    loadConfig().then(cfg => {
+      if (!st.ruc) st.ruc = cfg.ruc || '';
+      if (!st.rnp) st.rnp = cfg.rnp || '';
+      if (!st.razon) st.razon = cfg.razonSocial || '';
+      if (!st.correo) st.correo = cfg.correo || '';
+      if (!st.celular) st.celular = cfg.celular || '';
+      w.querySelector('#pfRuc').value = st.ruc;
+      w.querySelector('#pfRnp').value = st.rnp;
+      w.querySelector('#pfRazon').value = st.razon;
+      w.querySelector('#pfCorreo').value = st.correo;
+      w.querySelector('#pfCelular').value = st.celular;
+    });
+    w.querySelector('#pfRuc').addEventListener('input', e => { st.ruc = e.target.value; });
+    w.querySelector('#pfRnp').addEventListener('input', e => { st.rnp = e.target.value; });
+    w.querySelector('#pfRazon').addEventListener('input', e => { st.razon = e.target.value; });
+    w.querySelector('#pfCorreo').addEventListener('input', e => { st.correo = e.target.value; });
+    w.querySelector('#pfCelular').addEventListener('input', e => { st.celular = e.target.value; });
+    w.querySelector('#pfVigencia').addEventListener('input', e => { st.vigencia = e.target.value; });
+
+    const docList = w.querySelector('#docList');
+    const prog = w.querySelector('.wks-progress');
+    let misDocs = [];
+    function misDocFor(t){
+      const tl = t.toLowerCase();
+      if (tl.includes('rnp')) return misDocs.find(f => f.toLowerCase().includes('rnp'));
+      if (tl.includes('ficha ruc') || tl.includes('constancia sunat')) return misDocs.find(f => f.toLowerCase().includes('ruc'));
+      return null;
+    }
+    function previewUrl(d){
+      if (d.fmt) return '/formato/' + d.fmt + '.html';
+      if (d.file && misDocs.includes(d.file)) return '/doc/' + encodeURIComponent(d.file);
+      return null;
+    }
+    function renderDocs(){
+      const done = st.docs.filter(d => d.s === 'listo').length;
+      const pct = st.docs.length ? Math.round(done / st.docs.length * 100) : 0;
+      docList.innerHTML = st.docs.map((d, i) => {
+        const auto = !d.file && misDocFor(d.t);
+        return `
+        <div class="doc-row ${d.s === 'listo' ? 'listo' : ''}" data-di="${i}">
+          <button class="fmt-toggle" data-doc-toggle="${i}" aria-label="Marcar">✓</button>
+          <div style="flex:1;min-width:0;">
+            <div class="fmt-t">${escapeHtml(d.t)}</div>
+            <div class="doc-tools">
+              ${d.fmt ? `<a class="go" style="padding:4px 9px;font-size:11px;" href="/formato/${d.fmt}.docx">Descargar (.docx)</a>` : ''}
+              ${previewUrl(d) ? `<button class="go" style="padding:4px 9px;font-size:11px;" data-doc-view="${i}">Ver</button>` : ''}
+              ${auto ? `<button class="go" style="padding:4px 9px;font-size:11px;background:var(--good-soft);color:var(--good);" data-doc-auto="${i}">Adjuntar: ${escapeHtml(auto)}</button>` : ''}
+            </div>
+            <div class="doc-file">
+              <input type="file" data-doc-file="${i}" />
+              ${d.file ? `<span class="file-chip" data-doc-chip="${i}">${escapeHtml(d.file)} ✕</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      prog.querySelector('div').textContent = `${done}/${st.docs.length} listos`;
+      prog.querySelector('.bar i').style.width = pct + '%';
+      persist();
+    }
+    fetch('/docs').then(r => r.json()).then(j => { if (j.ok) { misDocs = j.files.map(f => f.name); renderDocs(); } }).catch(() => {});
+    renderDocs();
+
+    function showDocPreview(i){
+      const d = st.docs[i];
+      const url = previewUrl(d);
+      if (!url) return;
+      pdfTitleEl.textContent = d.t;
+      pdfFrame.src = url;
+      layoutEl.classList.remove('split-open');
+      layoutEl.classList.add('split-ws');
+    }
+
+    docList.addEventListener('click', e => {
+      const tg = e.target.closest('[data-doc-toggle]');
+      const chip = e.target.closest('[data-doc-chip]');
+      const view = e.target.closest('[data-doc-view]');
+      const auto = e.target.closest('[data-doc-auto]');
+      if (tg) {
+        const i = +tg.dataset.docToggle;
+        st.docs[i].s = st.docs[i].s === 'listo' ? 'pendiente' : 'listo';
+        renderDocs();
+      } else if (chip) {
+        const i = +chip.dataset.docChip;
+        st.docs[i].file = '';
+        renderDocs();
+      } else if (view) {
+        showDocPreview(+view.dataset.docView);
+      } else if (auto) {
+        const i = +auto.dataset.docAuto;
+        const f = misDocFor(st.docs[i].t);
+        if (f) { st.docs[i].file = f; st.docs[i].s = 'listo'; renderDocs(); }
+      }
+    });
+    docList.addEventListener('change', e => {
+      const fi = e.target.closest('[data-doc-file]');
+      if (fi) {
+        const i = +fi.dataset.docFile;
+        st.docs[i].file = e.target.files.length ? e.target.files[0].name : '';
+        renderDocs();
+      }
+    });
+
+    const itemsWrap = w.querySelector('#itemsWrap');
+    async function loadItems(){
+      itemsWrap.innerHTML = '<div class="panel-empty">Cargando ítems del proceso…</div>';
+      let items = [];
+      try {
+        const r = await fetch('/items?id=' + it.id);
+        const j = await r.json();
+        if (j.ok && j.items.length) items = j.items;
+      } catch(e){ /* ignore */ }
+      if (!items.length) items = [{ desc: it.desc || it.obj, um: 'SERVICIO', cant: 1, moneda: 'SOLES' }];
+      items = items.map((x, idx) => Object.assign({}, x, { p: (st.items[idx] && st.items[idx].p) || '' }));
+      st.items = items;
+      renderItems();
+      persist();
+    }
+    function renderItems(){
+      const total = st.items.reduce((acc, x) => acc + (parseFloat(x.p) || 0) * (parseFloat(x.cant) || 1), 0);
+      itemsWrap.innerHTML = `
+        <table class="ficha-table">
+          <tr><th>Ítem</th><th>Descripción</th><th>U.M.</th><th>Cant.</th><th>Moneda</th><th>P. Unit.</th><th>P. Total</th></tr>
+          ${st.items.map((x, i) => `
+            <tr>
+              <td class="mono">${i + 1}</td>
+              <td>${escapeHtml(x.desc)}</td>
+              <td>${escapeHtml(x.um || '—')}</td>
+              <td class="mono">${escapeHtml(String(x.cant != null ? x.cant : ''))}</td>
+              <td>${escapeHtml(x.moneda || 'SOLES')}</td>
+              <td><input type="number" min="0" step="0.01" data-item-p="${i}" value="${escapeHtml(x.p)}" placeholder="0.00" /></td>
+              <td class="mono">${x.p ? 'S/ ' + fmtMoney((parseFloat(x.p) || 0) * (parseFloat(x.cant) || 1)) : '—'}</td>
+            </tr>`).join('')}
+        </table>
+        <div class="total-box" style="margin-top:8px;">Total oferta (sin IGV): S/ ${fmtMoney(total)}</div>
+      `;
+      itemsWrap.querySelectorAll('[data-item-p]').forEach(inp => inp.addEventListener('input', () => {
+        const i = +inp.dataset.itemP;
+        st.items[i].p = inp.value;
+        persist();
+        renderItems();
+      }));
+    }
+    loadItems();
+
+    const rtmList = w.querySelector('#rtmList');
+    function renderRtm(){
+      rtmList.innerHTML = st.rtm.map((r, i) => `
+        <div class="rtm-row" data-ri="${i}">
+          <input class="rtm-desc" data-rtm-desc="${i}" value="${escapeHtml(r.desc)}" placeholder="Descripción" />
+          <input data-rtm-sol="${i}" value="${escapeHtml(r.sol)}" placeholder="RTM solicitado" />
+          <input data-rtm-ofr="${i}" value="${escapeHtml(r.ofr)}" placeholder="RTM ofertado" />
+          <button class="rtm-x" data-rtm-del="${i}" aria-label="Eliminar">✕</button>
+        </div>`).join('');
+      persist();
+    }
+    renderRtm();
+    rtmList.addEventListener('input', e => {
+      const desc = e.target.closest('[data-rtm-desc]');
+      const sol = e.target.closest('[data-rtm-sol]');
+      const ofr = e.target.closest('[data-rtm-ofr]');
+      if (desc) { const i = +desc.dataset.rtmDesc; st.rtm[i].desc = desc.value; persist(); }
+      if (sol) { const i = +sol.dataset.rtmSol; st.rtm[i].sol = sol.value; persist(); }
+      if (ofr) { const i = +ofr.dataset.rtmOfr; st.rtm[i].ofr = ofr.value; persist(); }
+    });
+    rtmList.addEventListener('click', e => {
+      const del = e.target.closest('[data-rtm-del]');
+      if (del) { const i = +del.dataset.rtmDel; st.rtm.splice(i, 1); renderRtm(); }
+    });
+    w.querySelector('#rtmAddBtn').addEventListener('click', () => {
+      const d = w.querySelector('#rtmNewDesc').value.trim();
+      const s = w.querySelector('#rtmNewSol').value.trim();
+      if (!d) return;
+      st.rtm.push({ desc: d, sol: s, ofr: '' });
+      w.querySelector('#rtmNewDesc').value = '';
+      w.querySelector('#rtmNewSol').value = '';
+      renderRtm();
+    });
+
+    const autoFillBtn = w.querySelector('#autoFillBtn');
+    if (autoFillBtn) autoFillBtn.addEventListener('click', async () => {
+      const cfg = await loadConfig();
+      if (!st.ruc) st.ruc = cfg.ruc || '';
+      if (!st.rnp) st.rnp = cfg.rnp || '';
+      if (!st.razon) st.razon = cfg.razonSocial || '';
+      if (!st.correo) st.correo = cfg.correo || '';
+      if (!st.celular) st.celular = cfg.celular || '';
+      w.querySelector('#pfRuc').value = st.ruc;
+      w.querySelector('#pfRnp').value = st.rnp;
+      w.querySelector('#pfRazon').value = st.razon;
+      w.querySelector('#pfCorreo').value = st.correo;
+      w.querySelector('#pfCelular').value = st.celular;
+
+      const a = ANALISIS[it.id];
+      const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const suggestPrice = desc => {
+        const dn = norm(desc);
+        for (const rubro of MERCADO) {
+          for (const mi of rubro.items) {
+            const qn = norm(mi.q);
+            const toks = qn.split(/[()/,]/).map(t => t.trim()).filter(t => t.length >= 4);
+            if (toks.some(t => dn.includes(t))) {
+              const nums = (mi.d || mi.h || mi.m || '').match(/\d[\d,.]*/g);
+              if (nums && nums.length) {
+                const vals = nums.map(x => parseFloat(x.replace(/,/g, ''))).filter(x => x > 0);
+                if (vals.length) return String(Math.round(vals.reduce((x, y) => x + y, 0) / vals.length));
+              }
+            }
+          }
+        }
+        return '';
+      };
+      let setVig = false;
+      if (!st.vigencia) {
+        let days = 60;
+        if (a && a.plazo) { const m = a.plazo.match(/\d+/); if (m) days = parseInt(m[0], 10); }
+        const d = new Date(); d.setDate(d.getDate() + days);
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        st.vigencia = `${dd}/${mm}/${d.getFullYear()}`;
+        setVig = true;
+      }
+      if (st.items.length === 1 && a && a.monto) {
+        const n = parseFloat(a.monto.replace(/[^\d.]/g, ''));
+        if (n > 0 && !st.items[0].p) st.items[0].p = String(Math.round(n));
+      } else {
+        st.items.forEach((x, i) => { if (!x.p) { const s = suggestPrice(x.desc); if (s) st.items[i].p = s; } });
+      }
+      renderItems();
+      if (a && a.docs && a.docs.length && !st.rtm.some(r => r.ofr)) {
+        st.rtm = a.docs.map(d => ({
+          desc: d.item,
+          sol: d.estado === 'ok' ? 'Cumplido' : 'Verificar',
+          ofr: d.estado === 'ok' ? 'CUMPLE' : 'POR VERIFICAR',
+        }));
+        renderRtm();
+      }
+      if (setVig) w.querySelector('#pfVigencia').value = st.vigencia;
+      persist();
+      flash('Relleno automático aplicado ✓ Revisa y corrige antes de guardar.');
+    });
+
+    w.querySelector('#fichaGuardar').addEventListener('click', () => { persist(); flash('Borrador guardado ✓'); });
+    const enviar = w.querySelector('#fichaEnviar');
+    if (enviar) enviar.addEventListener('click', () => {
+      persist();
+      window.open('https://prod6.seace.gob.pe/buscador-publico/contrataciones/' + it.id, '_blank', 'noopener');
+      flash('Abierto SEACE: inicia sesión con tu RUC y Clave SOL');
+    });
+  }
+
+  function openPanel(it){
+    closePdf();
+    panelEl.innerHTML = `
       <div class="panel-head">
         <div>
           <div class="pnum mono">${escapeHtml(it.num)}</div>
@@ -607,70 +1397,173 @@
         <button class="panel-close" data-close-panel aria-label="Cerrar">✕</button>
       </div>
       <div class="panel-body">
-    `;
-
-    if (a) {
-      html += `
-        <div class="panel-section">
-          <h3>Qué piden, en corto</h3>
-          <div class="panel-summary">${escapeHtml(a.resumen)}</div>
-          <div class="panel-meta-grid" style="margin-top:10px;">
-            ${a.monto ? `<div class="k">Monto</div><div class="v mono">${escapeHtml(a.monto)}</div>` : ''}
-            ${a.plazo ? `<div class="k">Plazo</div><div class="v">${escapeHtml(a.plazo)}</div>` : ''}
-          </div>
-        </div>
-        <div class="panel-section">
-          <h3>Checklist vs. tu perfil</h3>
-          ${a.docs.map(d => `
-            <div class="doc-row">
-              <div class="doc-dot ${d.estado}">${docSymbol[d.estado] || '?'}</div>
-              <div>
-                <div class="doc-item">${escapeHtml(d.item)} <span style="color:var(--faint); font-weight:600;">— ${docLabel[d.estado] || ''}</span></div>
-                <div class="doc-nota">${escapeHtml(d.nota)}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        ${a.alertas && a.alertas.length ? `
-          <div class="panel-section">
-            <h3>Alertas</h3>
-            ${a.alertas.map(al => `<div class="alert-box">${escapeHtml(al)}</div>`).join('')}
-          </div>
-        ` : ''}
-        <div class="panel-section">
-          <h3>Fuente</h3>
-          <div class="panel-summary" style="color:var(--faint); font-size:12px;">Extraído del PDF de requerimiento publicado en SEACE. Verifica siempre el documento original antes de presentar tu oferta.</div>
-        </div>
-      `;
-    } else {
-      html += `
-        <div class="panel-section">
-          <div class="panel-empty">
-            Este proceso todavía no tiene el checklist de requisitos generado.<br/><br/>
-            Descarga el PDF de requerimiento con el botón correspondiente, o pídeme en el chat que lo analice y te diga qué documentos te faltan para postular.
-          </div>
-        </div>
-      `;
-    }
-
-    html += `
+        ${analysisSection(it)}
         <div class="panel-section panel-links">
-          <a class="go" href="https://prod6.seace.gob.pe/v1/s8uit-services/archivo/archivos-publico/descargar-archivo-contrato/${it.archivoId}" target="_blank" rel="noopener noreferrer">Descargar PDF</a>
           <a class="go" href="https://prod6.seace.gob.pe/buscador-publico/contrataciones/${it.id}" target="_blank" rel="noopener noreferrer">Ver en SEACE</a>
         </div>
       </div>
     `;
-
-    panelEl.innerHTML = html;
     panelEl.querySelector('[data-close-panel]').addEventListener('click', closePanel);
+    bindAnalysisActions(it, panelEl);
+    layoutEl.classList.remove('split-pdf');
+    layoutEl.classList.remove('split-ws');
     layoutEl.classList.add('split-open');
     panelEl.scrollTop = 0;
+  }
+
+  function bindAnalysisActions(it, root){
+    root.querySelectorAll('[data-open-pdf]').forEach(b => b.addEventListener('click', () => openPdf(it)));
+    root.querySelectorAll('[data-ocr-analyze]').forEach(b => b.addEventListener('click', () => runOcrAnalyze(it, b)));
+    bindDecision(it, root);
+  }
+
+  function bindDecision(it, root){
+    const LS_DEC = 'oece.dec.';
+    const key = LS_DEC + it.id;
+    const saved = localStorage.getItem(key);
+    const voyBtn = root.querySelector('#decVoy');
+    const noVoyBtn = root.querySelector('#decNoVoy');
+    if (!voyBtn || !noVoyBtn) return;
+    function setState(dec){
+      localStorage.setItem(key, dec);
+      if (dec === 'voy'){
+        voyBtn.style.background = 'var(--good)';
+        voyBtn.style.color = 'var(--good-ink)';
+        noVoyBtn.style.background = 'var(--surface-2)';
+        noVoyBtn.style.color = 'var(--ink)';
+        noVoyBtn.style.borderColor = 'var(--line)';
+      } else if (dec === 'novoy'){
+        noVoyBtn.style.background = 'var(--urgent)';
+        noVoyBtn.style.color = '#fff';
+        voyBtn.style.background = 'var(--surface-2)';
+        voyBtn.style.color = 'var(--ink)';
+        voyBtn.style.borderColor = 'var(--line)';
+      }
+    }
+    if (saved) setState(saved);
+    voyBtn.addEventListener('click', () => setState('voy'));
+    noVoyBtn.addEventListener('click', () => setState('novoy'));
+  }
+
+  async function runOcrAnalyze(it, btn){
+    if (!it.archivoId) return;
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Analizando con OCR…';
+    try {
+      const r = await fetch('/analizar/' + it.id);
+      const j = await r.json();
+      if (!j.ok) {
+        btn.textContent = 'Error: ' + (j.error || 'no se pudo analizar');
+        setTimeout(() => { btn.textContent = label; btn.disabled = false; }, 4000);
+        return;
+      }
+      ANALISIS[it.id] = j.analisis;
+      location.reload();
+    } catch(e) {
+      btn.textContent = 'Usa el servidor local para OCR';
+      setTimeout(() => { btn.textContent = label; btn.disabled = false; }, 4000);
+    }
+  }
+
+  function openPdf(it){
+    closePanel();
+    activeIt = it;
+    workspaceEl.innerHTML = '';
+    pdfTitleEl.textContent = `${it.num} · ${it.ent}`;
+    pdfFrame.removeAttribute('src');
+    if (location.protocol === 'file:') {
+      pdfFrame.srcdoc = '<body style="font-family:system-ui,sans-serif;padding:40px;color:#555;text-align:center;line-height:1.7"><h3 style="margin:0 0 8px">Vista previa no disponible</h3><p>Este dashboard se abrió como archivo local.<br/>Para ver el PDF en pantalla sin descargarlo ejecuta:</p><p style="font-family:monospace;background:#eee;padding:8px;border-radius:6px">python seace_server.py</p><p>y entra a <b>http://localhost:8000</b></p></body>';
+    } else {
+      pdfFrame.src = '/pdf/' + it.archivoId;
+    }
+    layoutEl.classList.remove('split-open');
+    layoutEl.classList.remove('split-ws');
+    layoutEl.classList.add('split-pdf');
+  }
+
+  function openPostulacion(it){
+    closePanel();
+    activeIt = it;
+    workspaceEl.innerHTML = buildWorkspace(it);
+    bindWorkspace(it, workspaceEl);
+    const postTab = workspaceEl.querySelector('[data-tab="post"]');
+    if (postTab) postTab.click();
+    pdfTitleEl.textContent = `${it.num} · ${it.ent}`;
+    pdfFrame.removeAttribute('src');
+    if (location.protocol !== 'file:' && it.archivoId) {
+      pdfFrame.src = '/pdf/' + it.archivoId;
+    }
+    layoutEl.classList.remove('split-open');
+    layoutEl.classList.remove('split-pdf');
+    layoutEl.classList.add('split-ws');
+    workspaceEl.scrollTop = 0;
+  }
+
+  function closePdf(){
+    activeIt = null;
+    layoutEl.classList.remove('split-pdf');
+    layoutEl.classList.remove('split-ws');
+    workspaceEl.innerHTML = '';
+    pdfFrame.removeAttribute('src');
   }
 
   function closePanel(){
     layoutEl.classList.remove('split-open');
     panelEl.innerHTML = '';
   }
+
+  function tickCountdown(){
+    if (!activeIt) return;
+    const box = workspaceEl.querySelector('.countdown');
+    if (!box) return;
+    const cd = cdInfo(activeIt);
+    const val = box.querySelector('.cd-val');
+    if (val) val.textContent = cd.text;
+    box.classList.remove('urgent', 'warn', 'good', 'closed');
+    box.classList.add(cd.cls);
+  }
+  setInterval(tickCountdown, 30000);
+
+  document.getElementById('pdfClose').addEventListener('click', closePdf);
+
+  if (location.protocol === 'file:') {
+    document.getElementById('fileNotice').style.display = 'block';
+  }
+
+  const refreshBtn = document.getElementById('refreshBtn');
+  const refreshMsg = document.getElementById('refreshMsg');
+  refreshBtn.addEventListener('click', async () => {
+    refreshBtn.disabled = true;
+    refreshMsg.textContent = 'Actualizando…';
+    let started = false;
+    try {
+      const r = await fetch('/refresh', { method: 'POST' });
+      const s = await r.json();
+      started = true;
+      if (!s.started) refreshMsg.textContent = 'Ya hay una actualización en curso…';
+    } catch(e) {
+      refreshMsg.textContent = 'Usa el servidor local (python seace_server.py) para actualizar.';
+      refreshBtn.disabled = false;
+      return;
+    }
+    if (!started) return;
+    const t = setInterval(async () => {
+      try {
+        const r = await fetch('/refresh/status');
+        const s = await r.json();
+        if (s.running) { refreshMsg.textContent = 'Descargando y puntuando procesos…'; return; }
+        clearInterval(t);
+        refreshMsg.textContent = s.error ? ('Error: ' + s.error.slice(0, 120)) : 'Listo. Recargando…';
+        if (!s.error) setTimeout(() => location.reload(), 600);
+        else refreshBtn.disabled = false;
+      } catch(e) {
+        clearInterval(t);
+        refreshBtn.disabled = false;
+        refreshMsg.textContent = '';
+      }
+    }, 4000);
+  });
 
   render();
 })();
